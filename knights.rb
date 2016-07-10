@@ -10,19 +10,20 @@ class Knights
 		@knight_moves = knight_moves
 	end
 
-	def bfs (end_coord)
-		searcher(end_coord)
+	def bfs (xcoord, ycoord)
+		searcher(xcoord, ycoord)
 	end
 
-	def searcher(end_coord)
+	def searcher(xcoord, ycoord)
 		branch = []
-		starting_position = @knight_moves.start_point
+		queue = [[@knight_moves.moves_array]]
+		puts queue
+		
 
-     until [starting_position.x, starting_position.y] == end_coord
-      branch += searching_through.children
-       searching_through = yield(branch)
-   end
-   puts "#{end_coord} #{searching_through.depth}"
+   #   until [queue.x, queue.y] == [xcoord,ycoord]
+   #    branch.push queue.children
+   # end
+   # puts "#{end_coord} #{searching_through.depth}"
 
 
 	end
@@ -34,6 +35,6 @@ end
 
 
 
-new_move_tree = MovesTree.new([1,1], 5)
+new_move_tree = MovesTree.new([1,1], 2)
 k = Knights.new(new_move_tree)
-k.bfs([3,3])
+k.bfs(3,3)

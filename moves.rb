@@ -2,12 +2,13 @@ Moves = Struct.new(:x, :y, :depth, :children, :parent)
 
 class MovesTree 
 
-	attr_accessor :depth, :max_depth, :start_point
+	attr_accessor :depth, :max_depth, :start_point, :moves_array, :x, :y
 
 	def initialize(coordinates, max_depth)
 		@max_depth = max_depth
 		@start_point = Moves.new(coordinates[0], coordinates[1], 0, [], nil)
 		available_moves(@start_point)
+		@moves_array
 	end
 
 	def available_moves(moves_node)
@@ -16,16 +17,19 @@ class MovesTree
 		x= moves_node.x 
 		y= moves_node.y
 		currentdepth +=1
-		moves_array = []
+		@moves_array = []
 		all_possible_moves = moves_possible(x,y)
 		all_possible_moves.each do |move|
-			moves_array.push Moves.new(move[0],move[1], currentdepth, [], moves_node)
+			moves_pusher = Moves.new(move[0],move[1], currentdepth, [], moves_node)
+			@moves_array.push moves_pusher
 			moves_node.children << move
+			# puts "#{moves_pusher.x} and #{moves_pusher.y}"
 		end
-		moves_array.each do |next_move|
+		@moves_array.each do |next_move|
 		available_moves(next_move) if next_move.depth < max_depth
 		end
-		moves_array
+		@moves_array
+		# puts @moves_array
 	end
 
 
@@ -68,4 +72,4 @@ class MovesTree
 
 end
 
-m = MovesTree.new([1,1], 3)
+# m = MovesTree.new([1,1], 2)
