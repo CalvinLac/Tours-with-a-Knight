@@ -28,6 +28,9 @@ class Knights
 				end
 			end
 		end
+		if @node_queue.empty?
+			puts "It is impossible to get from #{@knight.x},#{@knight.y} to #{xcoord},#{ycoord} in #{@tree.max_depth} moves"
+		end
 	end
 
 	def dfs (xcoord, ycoord)
@@ -45,6 +48,9 @@ class Knights
 				end
 			end
 		end
+		if checker_for_dfs.empty?
+			puts "It is impossible to get from #{@knight.x},#{@knight.y} to #{xcoord},#{ycoord} in #{@tree.max_depth} moves"
+		end
 	end
 
 
@@ -57,5 +63,7 @@ end
 
 new_move_tree = MovesTree.new([0,0], 4)
 k = Knights.new(new_move_tree)
-k.bfs(3,3)
-k.dfs(3,3)
+k.bfs(2,4)
+k.dfs(2,4)
+k.bfs(8,8)
+k.dfs(8,8)
