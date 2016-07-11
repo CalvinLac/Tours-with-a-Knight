@@ -8,7 +8,6 @@ class MovesTree
 		@max_depth = max_depth
 		@start_point = Moves.new(coordinates[0], coordinates[1], 0, [], nil)
 		available_moves(@start_point)
-		@moves_array
 	end
 
 	def available_moves(moves_node)
@@ -17,19 +16,12 @@ class MovesTree
 		x= moves_node.x 
 		y= moves_node.y
 		currentdepth +=1
-		@moves_array = []
 		all_possible_moves = moves_possible(x,y)
 		all_possible_moves.each do |move|
-			moves_pusher = Moves.new(move[0],move[1], currentdepth, [], moves_node)
-			@moves_array.push moves_pusher
-			moves_node.children << move
-			# puts "#{moves_pusher.x} and #{moves_pusher.y}"
+			child_move = Moves.new(move[0],move[1], currentdepth, [], moves_node)
+			moves_node.children << child_move
+			available_moves(child_move) if child_move.depth < max_depth
 		end
-		@moves_array.each do |next_move|
-		available_moves(next_move) if next_move.depth < max_depth
-		end
-		@moves_array
-		# puts @moves_array
 	end
 
 
@@ -63,9 +55,13 @@ class MovesTree
 
 
 
-
-
-
+		# 	puts "#{moves_pusher.x} and #{moves_pusher.y}"
+		# end
+		# @moves_array.each do |next_move|
+		# available_moves(next_move) if next_move.depth < max_depth
+		# end
+		# @moves_array
+		# puts @moves_array
 
 
 
