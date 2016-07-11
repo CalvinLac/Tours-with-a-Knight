@@ -10,16 +10,16 @@ class MovesTree
 		available_moves(@start_point)
 	end
 
-	def available_moves(moves_node)
+	def available_moves(coordinate_node)
 		max_depth = @max_depth
-		currentdepth= moves_node.depth
-		x= moves_node.x 
-		y= moves_node.y
+		currentdepth= coordinate_node.depth
+		x= coordinate_node.x 
+		y= coordinate_node.y
 		currentdepth +=1
 		all_possible_moves = moves_possible(x,y)
 		all_possible_moves.each do |move|
-			child_move = Moves.new(move[0],move[1], currentdepth, [], moves_node)
-			moves_node.children << child_move
+			child_move = Moves.new(move[0],move[1], currentdepth, [], coordinate_node)
+			coordinate_node.children << child_move
 			available_moves(child_move) if child_move.depth < max_depth
 		end
 	end

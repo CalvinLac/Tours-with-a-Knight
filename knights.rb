@@ -11,43 +11,51 @@ class Knights
 		@tree = tree
 		@knight = tree.start_point 
 		@node_queue = Queue.new
+		@dfs_array = []
 	end
 
-	# def bfs (xcoord, ycoord)
-	# 	searcher(xcoord, ycoord)
-	# end
+	def bfs (xcoord, ycoord)
+		@node_queue.enqueue @knight
 
-	# def searcher(xcoord, ycoord)
-		
-	# 	queue = [@knight]
-	# 	puts @knight.children
-		
-	def bfs(target_coords)
-    @node_queue.enqueue(@knight.start_point)
-    check_node(@node_queue.dequeue, target_coords)
+		while !@node_queue.empty?
+			checker = @node_queue.dequeue
+			if [checker.x, checker.y] ==[xcoord, ycoord]
+				puts "You have found the sequence #{checker.depth} moves in using bfs"
+				return checker
+			else
+				checker.children.each do |child_of_child|
+					@node_queue.enqueue child_of_child
+				end
+			end
+		end
+	end
 
+	def dfs (xcoord, ycoord)
+		checker_for_dfs = []
+		checker_for_dfs << @knight
+
+		while !checker_for_dfs.empty?
+			checker = checker_for_dfs.pop 
+			if [checker.x, checker.y] ==[xcoord, ycoord]
+				puts "You have found the sequence #{checker.depth} moves in using dfs"
+				return checker
+			else
+				checker.children.each do |child_of_child|
+					checker_for_dfs << child_of_child
+				end
+			end
+		end
 	end
 
 
-def check_node(move, target_coords)
-  # puts "checking [#{move.x}][#{move.y}] at depth: #{move.depth}"
-    if move.x != target_coords[0] || move.y != target_coords[1]
-      move.children.each do |child|
-        @node_queue.enqueue(child)
-      end
-      while !@node_queue.empty?
-        check_node(@node_queue.dequeue, target_coords)
-      end
-  end
+
+
+
 end
 
 
 
-
-end
-
-
-
-new_move_tree = MovesTree.new([1,1], 2)
+new_move_tree = MovesTree.new([0,0], 4)
 k = Knights.new(new_move_tree)
-k.bfs([3,3])
+k.bfs(3,3)
+k.dfs(3,3)
